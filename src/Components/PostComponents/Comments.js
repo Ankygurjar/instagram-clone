@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function Comments() {
+function Comments({comment}) {
     return (
         <CommentsContainer>
             <b>
-                Commentor
+                {comment.by}
             </b>
             <span>
-                This is amazing guys!!!!!
+                {comment.comment}
             </span>
         </CommentsContainer>
     )

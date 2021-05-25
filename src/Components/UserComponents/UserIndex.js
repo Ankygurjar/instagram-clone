@@ -6,16 +6,19 @@ import { db } from '../../firebase'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/appSlice'
 import { useDocument } from 'react-firebase-hooks/firestore'
+import { Link } from 'react-router-dom'
 
 function UserIndex() {
 
     const user = useSelector(selectUser)
-    //const [posts, setPosts] = useState(new Array());
+
     const [posts, loading] = useDocument(
         user.userId && 
         db.collection("posts")
         .where("userId", "==", user.userId)
     )
+
+    console.log(posts)
 
     return (
         <UserIndexContainer>
@@ -36,9 +39,11 @@ function UserIndex() {
                     {
                         posts?.docs.map((post)=>{
                             const {imageUrl} = post.data();
-                            const { id } = post.id;
+                            const  id  = post.id;
                             return(
-                                <img key={id} src={imageUrl}/>
+                                <Link key={id} to={`/currentPost/${id}`} >
+                                    <img  src={imageUrl}/>
+                                </Link>
                             )
                         })
                     }
@@ -71,7 +76,7 @@ const PostContainer = styled.div`
     @media(max-width: 600px){
         grid-template-columns: auto auto;
     }
-    > img {
+    > a > img {
         width: 100%;
         height: 300px;
         border-radius: 3px;

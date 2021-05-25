@@ -7,7 +7,6 @@ import {
   Route
 } from 'react-router-dom'
 import Home from './Components/HomeComponents/Home'
-import Register from './Components/HomeComponents/Register'
 import { auth, db } from './firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import PostIndex from './Components/PostComponents/PostIndex'
@@ -16,6 +15,8 @@ import Spinner from 'react-spinkit'
 import UserIndex from './Components/UserComponents/UserIndex';
 import { useDispatch } from 'react-redux'
 import { currentUser } from './features/appSlice'
+import CurrentPost from './Components/PostComponents/CurrentPost'
+import Footer from './Components/HomeComponents/HomeFooter'
 
 function App() {
 
@@ -74,10 +75,12 @@ function App() {
           )}
         </Route>
         {user && (
-          <Route to="/user">
+          <>
             <Header/>
-            <UserIndex/>
-          </Route>
+              <Route path="/user" component={UserIndex}/>
+              <Route path="/currentPost/:id" component={CurrentPost}/>
+            <Footer/>
+          </>
         )}
         <Home/>
       </Switch>
