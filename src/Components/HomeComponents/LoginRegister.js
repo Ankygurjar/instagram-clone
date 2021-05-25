@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, {  } from 'react'
 import styled from 'styled-components'
 import appStore from '../../images/appStore.png'
 import playStore from '../../images/playStore.png'
 import {FacebookLogin, GoogleLogin, GithubLogin} from '../UserFunctions/Login'
-import { auth, db } from '../../firebase'
-import { useAuthState } from 'react-firebase-hooks/auth'
+
 import instaLogo from '../../images/instagramLogo.jpeg'
 
 function LoginRegister() {
@@ -40,26 +39,6 @@ function LoginRegister() {
     )
 }
 
-const AppLoading = styled.div`
-  
-`
-
-const AppLoadingContents = styled.div`
-  margin-top: 70%;
-  text-align: center;
-  padding-bottom: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-  
-  > img {
-    margin-top: -10px;
-    height: 100px;
-    padding: 20px;
-  }
-`
 
 const LoginRegisterContainer = styled.div`
     
@@ -74,7 +53,12 @@ const LoginContainer = styled.div`
     display: grid;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+
+    @media(max-width: 600px){
+        padding: 0px;
+        margin: 0px
+    }
+
     > h1 {
         font-family: 'Pattaya', sans-serif;
         align-items: center;
@@ -107,38 +91,17 @@ const LoginContainer = styled.div`
         background-color: rgba(var(--d69,0,149,246),1);
     }
 
-    > form{
-        display: grid;
-        grid-template-columns: auto;
-        grid-gap: 10px;
-        > input{
-            padding: 10px;
-            border: 1px solid gray;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        > button:nth-child(odd){
-        margin:5px;
-        color: white;
-        font-weight: bold;
-        border: none;
-        padding: 8px;
-        border-radius: 100px;
-        cursor:pointer;
-        background-color: #0095f6;
-        background-color: rgba(var(--d69,0,149,246),1);
-        }
-
-    }
-
 `
 
 const AppContainer = styled.div`
     width: 80%;
     margin-left: 80px;
     text-align:center;
+
+    @media(min-width: 375px){
+        margin-left: 40px;
+    }
+
     > p {
         padding: 0px;
         margin: 2px;

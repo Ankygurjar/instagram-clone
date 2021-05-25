@@ -8,8 +8,6 @@ function AddPost({ userId }) {
     const [postPicture, setpostPicture] = useState(null)
     const [progress, setProgress] = useState(0);
 
-    console.log(caption)
-
     const handleChange = (event) => {
         event.preventDefault();
         if(event.target.files[0]){
@@ -46,11 +44,11 @@ function AddPost({ userId }) {
                         })
                     })
                 
-                    setcaption("none")
-                    setProgress(0)
-                    setpostPicture(null)
             }
         )
+        setcaption("")
+        setProgress(0)
+        setpostPicture(null)
     }
 
     return (
@@ -88,6 +86,11 @@ const AddPostContainer = styled.div`
         grid-template-columns: 2fr 2fr 1fr;
         grid-gap: 10px;
         align-items: center;
+
+        @media(max-width: 600px){
+            grid-template-columns: auto;
+        }
+
         > input{
             border: none;
             outline: none;

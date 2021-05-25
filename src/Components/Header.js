@@ -1,15 +1,12 @@
 import React, { useState} from 'react'
 import styled from 'styled-components'
 import HomeIcon from '@material-ui/icons/Home';
-import ExploreOutlinedIcon from '@material-ui/icons/ExploreOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import HeaderIcon from './HeaderIcon';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../firebase'
 import {Link} from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { currentUserId } from '../features/appSlice'
-import Logout from './Logout'
 
 function Header() {
 
@@ -19,7 +16,6 @@ function Header() {
         return (
         
         <HeaderContainer>
-            <Logout/>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Pattaya&display=swap');
             </style>    
@@ -30,7 +26,7 @@ function Header() {
             <HeaderRight>
                 <Link to="/"><HeaderIcon Icon={HomeIcon}/></Link>
                 <HeaderIcon Icon={FavoriteBorderOutlinedIcon}/>
-                <HeaderIcon Icon={ExploreOutlinedIcon}/>
+                <HeaderIcon Icon={ExitToAppIcon} logout/>
                 <Link to="/user">
                     <img src={user.photoURL}/>
                 </Link>
@@ -52,7 +48,7 @@ export default Header
 const HeaderContainer = styled.div`
     display: grid;
     grid-template-columns: auto;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid lightgray;
 
 `
 

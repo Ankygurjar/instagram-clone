@@ -39,6 +39,14 @@ const ContentContainer = styled.div`
     padding: 20px;
     align-items: center;
 
+    @media(max-width: 600px){
+        grid-template-columns: auto;
+        
+        > img {
+            display: none;
+        }
+    }
+
     > img{
         width: 450px;
         height: 600px;

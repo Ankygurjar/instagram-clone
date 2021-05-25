@@ -26,10 +26,15 @@ const UserInfoContainer = styled.div`
     grid-template-columns: auto auto;
     grid-gap: 50px;
     align-items: center;
-
+    justify-content: center;
+    
+    @media(max-width: 600px){
+        grid-template-columns: auto;
+        text-align: center;
+        grid-gap: 20px;
+    }
     > img{
         border-radius: 50%;
-        
     }
 `
 

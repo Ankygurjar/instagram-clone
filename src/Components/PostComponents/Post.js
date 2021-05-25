@@ -35,10 +35,12 @@ const Header = styled.div`
     grid-gap: 10px;
     margin: 10px;
     align-items: center;
+
     > img{
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        object-fit: contain;
     }
     >b{
     grid-column-start: 2;
@@ -53,7 +55,7 @@ const Header = styled.div`
 `
 
 const InnerContainer = styled.div`
-    width: 440px;
+    width: 100%;
     >img{
         width: 100%;
         height: 400px;
@@ -61,4 +63,5 @@ const InnerContainer = styled.div`
         padding: 0px;
         margin: 0px;
     }
+
 `

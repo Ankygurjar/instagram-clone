@@ -16,7 +16,6 @@ import Spinner from 'react-spinkit'
 import UserIndex from './Components/UserComponents/UserIndex';
 import { useDispatch } from 'react-redux'
 import { currentUser } from './features/appSlice'
-import { createBrowserHistory as history } from 'history';
 
 function App() {
 
@@ -42,7 +41,6 @@ function App() {
           console.log(err)
         })
     }
-    console.log("hello")
   }, [user])
 
   if(loading){

@@ -5,28 +5,18 @@ import AddPost from './AddPost'
 import { db } from '../../firebase'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/appSlice'
+import { useDocument } from 'react-firebase-hooks/firestore'
 
 function UserIndex() {
 
     const user = useSelector(selectUser)
-
-    const [posts, setPosts] = useState(new Array());
-
-    useEffect(async ()=>{
-        await db.collection("posts")
+    //const [posts, setPosts] = useState(new Array());
+    const [posts, loading] = useDocument(
+        user.userId && 
+        db.collection("posts")
         .where("userId", "==", user.userId)
-        .get()
-        .then((docs)=>{
-            let arrPosts = new Array()
-            docs.forEach((doc)=>{
-                arrPosts.push([doc.id, doc.data()])
-            })
-            setPosts(arrPosts)
-        })
-        
-        //console.log(posts)
-    }, [  ])
-//console.log(posts)
+    )
+
     return (
         <UserIndexContainer>
             <InnerContainer>
@@ -34,19 +24,21 @@ function UserIndex() {
                 userProfilePic={user.userProfilePic}
                 userName={user.userName} 
                 userEmail={user.userEmail}
-                count={posts.length}/>
+                count={posts && posts.docs.length}
+                />
                 <AddPost
                 userId = {user.userId}
                 />
                 <PostContainer>
+                    { loading && (
+                        <h1 style={{textAlign:"center"}}>Loading your posts.....</h1>
+                    )}
                     {
-                        posts.map((post)=>{
-                            //const imageUrl = post[1];
-                            const {imageUrl} = post[1];
-                            const {id} = post[0]
-                            console.log(imageUrl)
+                        posts?.docs.map((post)=>{
+                            const {imageUrl} = post.data();
+                            const { id } = post.id;
                             return(
-                                <img src={imageUrl}/>
+                                <img key={id} src={imageUrl}/>
                             )
                         })
                     }
@@ -76,8 +68,12 @@ const PostContainer = styled.div`
     grid-template-columns: 33% 33% 33%;
     grid-gap: 10px;
 
+    @media(max-width: 600px){
+        grid-template-columns: auto auto;
+    }
     > img {
         width: 100%;
         height: 300px;
+        border-radius: 3px;
     }
 `
