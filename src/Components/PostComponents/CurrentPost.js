@@ -24,10 +24,10 @@ function CurrentPost() {
             { post && !loading &&(
                 <SinglePost
                 postId={postId}
-                imageUrl={post.data().imageUrl}
-                timestamp={post.data().timestamp}
-                userId={post.data().userId}
-                caption={post.data().caption}
+                imageUrl={post.data()?.imageUrl}
+                timestamp={post?.data()?.timestamp}
+                userId={post?.data()?.userId}
+                caption={post?.data()?.caption}
                 />
             )}
         </CurrentPostContainer>

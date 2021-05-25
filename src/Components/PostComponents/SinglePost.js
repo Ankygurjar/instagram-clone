@@ -1,10 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import CommentSection from './CommentSection'
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db } from '../../firebase'
+import { selectUser } from '../../features/appSlice'
+import { useHistory } from 'react-router-dom'
 
 function SinglePost({ postId,imageUrl, timestamp, caption, userId }) {
+
+    const currUser = useSelector(selectUser)
+    const history = useHistory();
 
     const [fetchUser] = useDocument(
         userId && 
@@ -17,23 +23,45 @@ function SinglePost({ postId,imageUrl, timestamp, caption, userId }) {
         name: fetchUser.docs[0].data().userName
     }
 
+    const handleDelete = (e) => {
+        e.preventDefault()
+        if(window.confirm("Are you sure you want to delete this post?. It cannot be undo.")){
+            db.collection("posts")
+            .doc(postId)
+            .delete()
+            .then(()=>{
+                history.push('/user')
+            })
+        }
+    }
+
     return (
         <SinglePostContainer>
+            { postId && imageUrl && (
             <InnerContainer>
                 <img src={imageUrl}/>
                 <PostDetails>
                     <Header>
                         <img src={user?.image} alt="Avatar"/>
                         <span>{user?.name}</span>
-                        <span>...</span>
+                        {
+                            currUser && 
+                            (currUser.userId=== userId) &&
+                            <button onClick={handleDelete}>
+                                Delete this Post
+                            </button>
+                        }
                     </Header>
+                    <p>{caption}</p>
                     <CommentSection
+                    curUserId={currUser.userId}
                     postId={postId}
                     userId={userId}
                     userName={user?.name}
                     />
                 </PostDetails>
             </InnerContainer>
+            )}
         </SinglePostContainer>
     )
 }
@@ -69,7 +97,8 @@ const PostDetails = styled.div`
 const Header = styled.div`
     display: grid;
     grid-template-columns: auto auto auto;
-    
+    height: 50px;
+    align-items: center;
     > img{
         border-radius: 50%;
         height: 50px;

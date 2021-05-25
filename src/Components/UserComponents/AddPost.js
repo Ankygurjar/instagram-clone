@@ -42,13 +42,13 @@ function AddPost({ userId }) {
                             imageUrl: url,
                             userId: userId
                         })
+                        setcaption("")
+                        setProgress(0)
+                        setpostPicture(null)
                     })
                 
             }
         )
-        setcaption("")
-        setProgress(0)
-        setpostPicture(null)
     }
 
     return (
@@ -56,14 +56,15 @@ function AddPost({ userId }) {
             <h3> Add New Post </h3>
             <form>
                 <input className="test"
+                value={caption}
                 onChange={(event)=>{
                     event.preventDefault();
                     setcaption(event.target.value)
                 }}
                 placeholder="enter the caption"/>
-                <input type="file" onChange={handleChange}/>
+                <input 
+                type="file" onChange={handleChange}/>
                 <button 
-                
                 disabled={!caption && !postPicture}
                 type="submit"
                 onClick={handlePost}

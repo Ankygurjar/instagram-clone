@@ -13,12 +13,12 @@ function UserIndex() {
     const user = useSelector(selectUser)
 
     const [posts, loading] = useDocument(
-        user.userId && 
+        user && user.userId && 
         db.collection("posts")
         .where("userId", "==", user.userId)
     )
+    
 
-    console.log(posts)
 
     return (
         <UserIndexContainer>

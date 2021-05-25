@@ -4,20 +4,9 @@ import Comments from './Comments'
 import { db } from '../../firebase'
 import { useDocument } from 'react-firebase-hooks/firestore'
 
-function CommentSection({ postId, userId, userName }) {
+function CommentSection({ curUserId, postId, userId, userName }) {
 
     const [ comment, setComment ] = useState('')
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        db.collection("comments")
-        .add({
-            comment:comment,
-            postId: postId,
-            by: userName,
-            userId: userId
-        })
-    }
 
     const [ comments ] = useDocument(
         postId && 
@@ -25,26 +14,41 @@ function CommentSection({ postId, userId, userName }) {
         .where("postId", "==", postId)
     )
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        postId && db.collection("comments")
+        .add({
+            comment:comment,
+            postId: postId,
+            by: userName,
+            userId: userId
+        })
+            .then(()=>{setComment('')})
+            .catch(err=>console.log(err.message))
+    }
 
     return (
         <CommentSectionContainer>
             {comments?.docs.map((doc)=>{
                 return(
-                    <Comments 
+                    <Comments
+                        curUserId={curUserId}
                         key={doc.id}
+                        commentId={doc.id}
+                        userId={userId}
                         comment={doc.data()}
                     />
                 )
             })}
             <CommentInput>
                 <form>
-                    <input placeholder="Add a comment" onChange={
+                    <input value={comment} placeholder="Add a comment" onChange={
                         (e) => {
                             e.preventDefault();
                             setComment(e.target.value)
                         }
                     }/>
-                    <button type="submit" onClick={handleSubmit}>Post</button>
+                    <button disabled={!comment} type="submit" onClick={handleSubmit}>Post</button>
                 </form>
             </CommentInput>
         </CommentSectionContainer>

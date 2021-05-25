@@ -1,7 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { db } from '../../firebase'
 
-function Comments({comment}) {
+function Comments({comment, curUserId, userId, commentId}) {
+
+
     return (
         <CommentsContainer>
             <b>
@@ -10,6 +13,24 @@ function Comments({comment}) {
             <span>
                 {comment.comment}
             </span>
+            {
+                (curUserId === userId) && (
+                    <button
+                        onClick={
+                            (e)=>{
+                                e.preventDefault();
+                                curUserId && userId &&
+                                db.collection("comments")
+                                .doc(commentId)
+                                .delete()
+                            }
+
+                        }
+                    >
+                        Delete 
+                    </button>
+                )
+            }
         </CommentsContainer>
     )
 }
