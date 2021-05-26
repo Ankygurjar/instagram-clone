@@ -54,9 +54,9 @@ function SinglePost({ postId,imageUrl, timestamp, caption, userId }) {
                     </Header>
                     <p>{caption}</p>
                     <CommentSection
-                    curUserId={currUser.userId}
-                    postId={postId}
-                    userId={userId}
+                    curUserId={currUser?.userId}
+                    postId={postId && postId}
+                    userId={userId && userId}
                     userName={user?.name}
                     />
                 </PostDetails>

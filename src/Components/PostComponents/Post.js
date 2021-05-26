@@ -3,19 +3,27 @@ import styled from 'styled-components'
 import CommentSection from './CommentSection'
 import userImage from './../../images/rawImage.jpg'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Dummy from '../../images/dummy.png'
 
-function Post({ postId, userName, imageURL}) {
+function Post({ postId, imageURL, by, userProfilePic, caption,curUserId, userId}) {
+
+    let postBy = userId === curUserId ? "Me" : by;
 
     return (
         <PostContainer>
             <InnerContainer>
                 <Header>
-                    <img src={userImage}/>
-                    <b>{userName}</b>
+                    <img src={userProfilePic ? userProfilePic : Dummy}/>
+                    <b>{postBy}</b>
                     <MoreHorizIcon/>
                 </Header>
-                <img src={`/images/${imageURL}`} alt="post"/>
-                <CommentSection />
+                <img src={imageURL} alt="post"/>
+                <p>{caption}</p>
+                <CommentSection 
+                postId={postId}
+                curUserId={curUserId}
+                userId={userId}
+                />
             </InnerContainer>
         </PostContainer>
     )
@@ -25,16 +33,16 @@ export default Post
 
 const PostContainer = styled.div`
     background-color: white;
-    margin-top: 50px;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
+    margin: 15px;
 `
 
 const Header = styled.div`
+
     display: grid;
-    grid-template-columns: 1fr 6fr 1fr;
-    grid-gap: 10px;
-    margin: 10px;
+    grid-template-columns: 4fr 4fr 1fr;
     align-items: center;
+    padding: 5px;
 
     > img{
         width: 40px;
@@ -55,7 +63,8 @@ const Header = styled.div`
 `
 
 const InnerContainer = styled.div`
-    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
     >img{
         width: 100%;
         height: 400px;

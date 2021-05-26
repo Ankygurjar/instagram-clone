@@ -2,24 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 import { db } from '../../firebase'
 
-function Comments({comment, curUserId, userId, commentId}) {
+function Comments({comment, currentUserId, by, commentUserId, commentId}) {
 
-
+    console.log(commentUserId)
     return (
         <CommentsContainer>
             <b>
-                {comment.by}
+                {by}
             </b>
             <span>
-                {comment.comment}
+                {comment}
             </span>
             {
-                (curUserId === userId) && (
+                (currentUserId === commentUserId) && (
                     <button
                         onClick={
                             (e)=>{
                                 e.preventDefault();
-                                curUserId && userId &&
+                                currentUserId && commentUserId &&
                                 db.collection("comments")
                                 .doc(commentId)
                                 .delete()

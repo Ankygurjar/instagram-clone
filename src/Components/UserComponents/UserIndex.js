@@ -31,6 +31,8 @@ function UserIndex() {
                 />
                 <AddPost
                 userId = {user.userId}
+                userName = {user.userName}
+                userProfilePic = { user.userProfilePic}
                 />
                 <PostContainer>
                     { loading && (

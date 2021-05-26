@@ -4,7 +4,8 @@ import Comments from './Comments'
 import { db } from '../../firebase'
 import { useDocument } from 'react-firebase-hooks/firestore'
 
-function CommentSection({ curUserId, postId, userId, userName }) {
+function CommentSection({ curUserId, postId, userId }) {
+
 
     const [ comment, setComment ] = useState('')
 
@@ -14,29 +15,33 @@ function CommentSection({ curUserId, postId, userId, userName }) {
         .where("postId", "==", postId)
     )
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        postId && db.collection("comments")
-        .add({
-            comment:comment,
-            postId: postId,
-            by: userName,
-            userId: userId
-        })
-            .then(()=>{setComment('')})
-            .catch(err=>console.log(err.message))
+        if(postId !== null){
+            db.collection("comments")
+            .add({
+                comment:comment,
+                userId: userId,
+                by: 'userName',
+                postId: postId
+            })
+                .then(()=>{setComment('')})
+                .catch(err=>console.log(err.message))
+                console.log(postId)
+        }
     }
 
     return (
         <CommentSectionContainer>
             {comments?.docs.map((doc)=>{
+                const {userId, postId, by, comment} = doc.data()
                 return(
                     <Comments
-                        curUserId={curUserId}
-                        key={doc.id}
+                        commentUserId={userId}
+                        currentUserId={curUserId}
                         commentId={doc.id}
-                        userId={userId}
-                        comment={doc.data()}
+                        by={by}
+                        comment={comment}
                     />
                 )
             })}

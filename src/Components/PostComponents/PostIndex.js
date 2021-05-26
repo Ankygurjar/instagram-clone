@@ -3,50 +3,75 @@ import { auth } from '../../firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import styled from 'styled-components'
 import Post from './Post'
+import ShowUsers from './FollowComponents/ShowUsers'
+import { useDocument } from 'react-firebase-hooks/firestore'
+import { db } from '../../firebase'
 
 function PostIndex() {
     const [user, loading] = useAuthState(auth);
-    const [posts, setposts] = useState([
-        {
-            postId: 1,
-            userName: 'Ankit Gurjar',
-            imageURL: 'rawImage.jpg',
-        }
-    ])
+    const [posts] = useDocument( user &&
+            db.collection("posts")
+            .orderBy("timestamp", "desc")
+        )
 
-    const logout = (e) => {
-        auth.signOut();
-        e.preventDefault();
-    }
+    const arrOfFollowing = new Array()
+
+    const [following] = useDocument( user &&
+            db.collection("followers")
+            .where("followerId", "==", user.uid)
+        )
+    
+    following?.docs.forEach((doc)=>{
+        arrOfFollowing.push(doc.data().following)
+        arrOfFollowing.push(doc.data().followerId)
+    })
 
     return (
         <PostIndexContainer>
-            <Posts>
-                {posts.map((post)=>{
-                    const { postId, userName, imageURL} = post;
-                    return(
-                        <Post
-                        key={postId}
-                        id={postId}
-                        userName={userName}
-                        imageURL={imageURL}
-                        />
-                    )
-                })}
-            </Posts>
+            { user && (
+            <InnerContainer>
+                <Posts>
+                    {posts && posts.docs.map((post)=>{
+                        const {postId, imageUrl, caption, by, userProfilePic, userId} = post.data()
+                        if(arrOfFollowing.includes(userId) || userId === user.uid){
+                        return(
+                            <Post
+                            key={post.id}
+                            curUserId={user.uid}
+                            postId={post.id}
+                            by={by && by}
+                            userProfilePic={userProfilePic && userProfilePic}
+                            userId={userId}
+                            imageURL={imageUrl}
+                            caption={caption}
+                            />
+                        )
+                        }
+                    })}
+                </Posts>
+                <ShowUsers userId={user.uid}/>
+            </InnerContainer>
+            )}
         </PostIndexContainer>
     )
 }
 
 export default PostIndex
 
-const Posts = styled.div`
+const InnerContainer = styled.div`
+    padding-top: 50px;
+    width: 60%;
+    margin: auto;
     display: grid;
-    grid-template-columns: auto;
-    justify-content: center;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+`
+
+const Posts = styled.div`
+
 `
 
 const PostIndexContainer = styled.div`
     background-color: #F0F0F0;
-    height: 100vh;
+    
 `

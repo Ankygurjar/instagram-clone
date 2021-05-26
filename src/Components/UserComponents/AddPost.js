@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { firebase, storage, db } from './../../firebase'
 
-function AddPost({ userId }) {
+function AddPost({ userId, userName, userProfilePic }) {
 
     const [caption, setcaption] = useState('');
     const [postPicture, setpostPicture] = useState(null)
@@ -40,6 +40,8 @@ function AddPost({ userId }) {
                             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             caption: caption,
                             imageUrl: url,
+                            by: userName,
+                            userProfilePic: userProfilePic,
                             userId: userId
                         })
                         setcaption("")

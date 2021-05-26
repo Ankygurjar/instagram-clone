@@ -23,7 +23,7 @@ function CurrentPost() {
             }
             { post && !loading &&(
                 <SinglePost
-                postId={postId}
+                postId={postId && postId}
                 imageUrl={post.data()?.imageUrl}
                 timestamp={post?.data()?.timestamp}
                 userId={post?.data()?.userId}
