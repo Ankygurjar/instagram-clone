@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { } from 'react'
 import { auth } from '../../firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import styled from 'styled-components'
@@ -8,13 +8,13 @@ import { useDocument } from 'react-firebase-hooks/firestore'
 import { db } from '../../firebase'
 
 function PostIndex() {
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const [posts] = useDocument( user &&
             db.collection("posts")
             .orderBy("timestamp", "desc")
         )
 
-    const arrOfFollowing = new Array()
+    const arrOfFollowing = []
 
     const [following] = useDocument( user &&
             db.collection("followers")
@@ -32,12 +32,13 @@ function PostIndex() {
             <InnerContainer>
                 <Posts>
                     {posts && posts.docs.map((post)=>{
-                        const {postId, imageUrl, caption, by, userProfilePic, userId} = post.data()
+                        const { imageUrl, caption, by, userProfilePic, userId} = post.data()
                         if(arrOfFollowing.includes(userId) || userId === user.uid){
                         return(
                             <Post
                             key={post.id}
                             curUserId={user.uid}
+                            curUserName={user?.displayName}
                             postId={post.id}
                             by={by && by}
                             userProfilePic={userProfilePic && userProfilePic}

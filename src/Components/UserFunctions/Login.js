@@ -1,6 +1,4 @@
 import { auth, googleProvider, facebookProvider, gitHubProvider, db } from '../../firebase'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDispatch } from 'react-redux'
 
 const GoogleLogin = () => {
     auth.signInWithPopup(googleProvider)

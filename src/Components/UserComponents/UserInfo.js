@@ -5,7 +5,7 @@ function UserInfo({userProfilePic, userName, userEmail, count}) {
 
     return (
         <UserInfoContainer>
-            <img src={userProfilePic}/>
+            <img src={userProfilePic} alt="Avatar"/>
             <UserDetails>
                 <span>
                     {userName}

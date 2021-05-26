@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { } from 'react'
 import styled from 'styled-components'
 import HomeIcon from '@material-ui/icons/Home';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
@@ -28,7 +28,7 @@ function Header() {
                 <HeaderIcon Icon={FavoriteBorderOutlinedIcon}/>
                 <HeaderIcon Icon={ExitToAppIcon} logout/>
                 <Link to="/user">
-                    <img src={user.photoURL}/>
+                    <img src={user.photoURL} alt="Instagram"/>
                 </Link>
             </HeaderRight>
             </InnerHeaderContainer>

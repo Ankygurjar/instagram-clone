@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, {  } from 'react'
 import styled from 'styled-components'
 import CommentSection from './CommentSection'
-import userImage from './../../images/rawImage.jpg'
+//import userImage from './../../images/rawImage.jpg'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Dummy from '../../images/dummy.png'
 
-function Post({ postId, imageURL, by, userProfilePic, caption,curUserId, userId}) {
+function Post({ postId, imageURL, by, userProfilePic, caption, curUserName, curUserId, userId}) {
 
     let postBy = userId === curUserId ? "Me" : by;
 
@@ -13,7 +13,7 @@ function Post({ postId, imageURL, by, userProfilePic, caption,curUserId, userId}
         <PostContainer>
             <InnerContainer>
                 <Header>
-                    <img src={userProfilePic ? userProfilePic : Dummy}/>
+                    <img alt="Avatar" src={userProfilePic ? userProfilePic : Dummy}/>
                     <b>{postBy}</b>
                     <MoreHorizIcon/>
                 </Header>
@@ -22,7 +22,7 @@ function Post({ postId, imageURL, by, userProfilePic, caption,curUserId, userId}
                 <CommentSection 
                 postId={postId}
                 curUserId={curUserId}
-                userId={userId}
+                curUserName={curUserName}
                 />
             </InnerContainer>
         </PostContainer>

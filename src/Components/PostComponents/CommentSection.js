@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Comments from './Comments'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../features/appSlice'
 import { db } from '../../firebase'
 import { useDocument } from 'react-firebase-hooks/firestore'
 
-function CommentSection({ curUserId, postId, userId }) {
-
+function CommentSection({ curUserId, postId }) {
 
     const [ comment, setComment ] = useState('')
-
+    
+    const user = useSelector(selectUser)
     const [ comments ] = useDocument(
         postId && 
         db.collection("comments")
@@ -21,8 +23,8 @@ function CommentSection({ curUserId, postId, userId }) {
             db.collection("comments")
             .add({
                 comment:comment,
-                userId: userId,
-                by: 'userName',
+                userId: curUserId,
+                by: user.userName,
                 postId: postId
             })
                 .then(()=>{setComment('')})
@@ -34,7 +36,7 @@ function CommentSection({ curUserId, postId, userId }) {
     return (
         <CommentSectionContainer>
             {comments?.docs.map((doc)=>{
-                const {userId, postId, by, comment} = doc.data()
+                const {userId, by, comment} = doc.data()
                 return(
                     <Comments
                         commentUserId={userId}

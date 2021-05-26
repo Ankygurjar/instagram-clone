@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { db } from '../../firebase'
 
 function Comments({comment, currentUserId, by, commentUserId, commentId}) {
+    
+    let deleteComment = (currentUserId === commentUserId)
 
-    console.log(commentUserId)
     return (
         <CommentsContainer>
             <b>
@@ -13,8 +14,8 @@ function Comments({comment, currentUserId, by, commentUserId, commentId}) {
             <span>
                 {comment}
             </span>
-            {
-                (currentUserId === commentUserId) && (
+            {   
+                deleteComment &&  (
                     <button
                         onClick={
                             (e)=>{

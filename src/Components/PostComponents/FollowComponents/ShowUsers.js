@@ -22,6 +22,7 @@ function ShowUsers({ userId}) {
                 .then(()=>{
                     alert("User has been deleted from your following list")
                 })
+                .catch(err=>{console.log(err)})
     }
 
     const handleFollow =  async (following) =>{
@@ -42,6 +43,7 @@ function ShowUsers({ userId}) {
                             .where("followerId", "==", userId)
                             .get()
                             .then(async(res)=>{
+                                console.log(res)
                                 const id = res.docs[0].id
                                 handleUnFollow(id)
                             })
@@ -62,10 +64,10 @@ function ShowUsers({ userId}) {
                 </Header>
                 { users && (
                     users.docs.map((doc)=>{
-                        const { userName, email, profilePicture, userId } = doc.data()
+                        const { userName, profilePicture, userId } = doc.data()
                         return(
                             <User key={doc.id}>
-                                <img src={profilePicture}/>
+                                <img alt="Profile" src={profilePicture}/>
                                 <b>{userName}</b>
                                 {
                                     isFollowing && (
