@@ -5,10 +5,10 @@ import CommentSection from './CommentSection'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Dummy from '../../images/dummy.png'
 
-function Post({ postId, imageURL, by, userProfilePic, caption, curUserName, curUserId, userId}) {
+function Post({ postId, imageURL, by, userProfilePic, caption, curUserName, timestamp,curUserId, userId}) {
 
     let postBy = userId === curUserId ? "Me" : by;
-
+    console.log(timestamp)
     return (
         <PostContainer>
             <InnerContainer>
@@ -18,6 +18,7 @@ function Post({ postId, imageURL, by, userProfilePic, caption, curUserName, curU
                     <MoreHorizIcon/>
                 </Header>
                 <img src={imageURL} alt="post"/>
+                <p>On <span>{new Date(timestamp?.toDate()).toUTCString()}</span></p>
                 <p>{caption}</p>
                 <CommentSection 
                 postId={postId}
@@ -65,6 +66,13 @@ const Header = styled.div`
 const InnerContainer = styled.div`
     display: grid;
     grid-template-columns: auto;
+    grid-gap:0px;
+    >p{
+        margin:4px;
+        >span{
+            color: gray;
+        }
+    }
     >img{
         width: 100%;
         height: 400px;

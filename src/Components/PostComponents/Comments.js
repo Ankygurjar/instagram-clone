@@ -40,9 +40,18 @@ export default Comments
 
 const CommentsContainer = styled.div`
     text-transform: lowercase;
+    border-bottom: 1px solid lightgray;
     margin: 5px;
     > span{
         margin-left: 5px;
+    }
+
+    > button{
+        background-color: transparent;
+        border: none;
+        color: #0095f6;
+        font-weight: 700;
+        cursor: pointer;
     }
 `
 

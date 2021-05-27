@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Comments from './Comments'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/appSlice'
-import { db } from '../../firebase'
+import { db, firebase } from '../../firebase'
 import { useDocument } from 'react-firebase-hooks/firestore'
 
 function CommentSection({ curUserId, postId }) {
@@ -15,6 +15,7 @@ function CommentSection({ curUserId, postId }) {
         postId && 
         db.collection("comments")
         .where("postId", "==", postId)
+        .limit(8)
     )
 
     const handleSubmit = async (e) => {
@@ -25,7 +26,8 @@ function CommentSection({ curUserId, postId }) {
                 comment:comment,
                 userId: curUserId,
                 by: user.userName,
-                postId: postId
+                postId: postId,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
                 .then(()=>{setComment('')})
                 .catch(err=>console.log(err.message))

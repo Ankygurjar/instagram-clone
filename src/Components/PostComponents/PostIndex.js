@@ -32,7 +32,7 @@ function PostIndex() {
             <InnerContainer>
                 <Posts>
                     {posts && posts.docs.map((post)=>{
-                        const { imageUrl, caption, by, userProfilePic, userId} = post.data()
+                        const { imageUrl, caption, by, userProfilePic, timestamp,userId} = post.data()
                         if(arrOfFollowing.includes(userId) || userId === user.uid){
                         return(
                             <Post
@@ -40,6 +40,7 @@ function PostIndex() {
                             curUserId={user.uid}
                             curUserName={user?.displayName}
                             postId={post.id}
+                            timestamp={timestamp}
                             by={by && by}
                             userProfilePic={userProfilePic && userProfilePic}
                             userId={userId}
