@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import 'firebase/storage'
 
 //const githubSecretKey = 'fed39158970a1399fda20fa88692fe36811e9701';
 

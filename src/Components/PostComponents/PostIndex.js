@@ -37,6 +37,7 @@ function PostIndex() {
                         return(
                             <Post
                             key={post.id}
+                            docId={post.id}
                             curUserId={user.uid}
                             curUserName={user?.displayName}
                             postId={post.id}

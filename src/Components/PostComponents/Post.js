@@ -4,11 +4,12 @@ import CommentSection from './CommentSection'
 //import userImage from './../../images/rawImage.jpg'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Dummy from '../../images/dummy.png'
+import { Link } from 'react-router-dom'
 
-function Post({ postId, imageURL, by, userProfilePic, caption, curUserName, timestamp,curUserId, userId}) {
+function Post({ postId, docId, imageURL, by, userProfilePic, caption, curUserName, timestamp,curUserId, userId}) {
 
     let postBy = userId === curUserId ? "Me" : by;
-    console.log(timestamp)
+
     return (
         <PostContainer>
             <InnerContainer>
@@ -17,7 +18,9 @@ function Post({ postId, imageURL, by, userProfilePic, caption, curUserName, time
                     <b>{postBy}</b>
                     <MoreHorizIcon/>
                 </Header>
-                <img src={imageURL} alt="post"/>
+                <Link to={`/currentPost/${docId}`}>
+                    <img src={imageURL} alt="post"/>
+                </Link>
                 <p>On <span>{new Date(timestamp?.toDate()).toUTCString()}</span></p>
                 <p>{caption}</p>
                 <CommentSection 
@@ -73,7 +76,7 @@ const InnerContainer = styled.div`
             color: gray;
         }
     }
-    >img{
+    > a > img{
         width: 100%;
         height: 400px;
         object-fit: cover;

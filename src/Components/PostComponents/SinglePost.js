@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import CommentSection from './CommentSection'
 import { useDocument } from 'react-firebase-hooks/firestore'
-import { db } from '../../firebase'
+import { db, storage } from '../../firebase'
 import { selectUser } from '../../features/appSlice'
 import { useHistory } from 'react-router-dom'
 
@@ -30,7 +30,13 @@ function SinglePost({ postId,imageUrl, timestamp, caption, userId }) {
             .doc(postId)
             .delete()
             .then(()=>{
-                history.push('/user')
+                let pictureRef = storage.refFromURL(imageUrl)
+                pictureRef.delete()
+                .then(()=>{
+                    console.log(true)
+                    history.push("/user")
+                })
+                .catch(err=>console.log(err.message))
             })
         }
     }
@@ -52,6 +58,7 @@ function SinglePost({ postId,imageUrl, timestamp, caption, userId }) {
                             </button>
                         }
                     </Header>
+                    <p>On <span>{new Date(timestamp?.toDate()).toUTCString()}</span></p>
                     <p>{caption}</p>
                     <CommentSection
                     curUserId={currUser?.userId}
@@ -92,6 +99,9 @@ const PostDetails = styled.div`
     display: grid;
     grid-template-columns: auto;
     width: 100%;
+    >p{
+        margin: 0px;
+    }
 `
 
 const Header = styled.div`
