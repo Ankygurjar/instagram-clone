@@ -41,6 +41,7 @@ function CommentSection({ curUserId, postId }) {
                 const {userId, by, comment} = doc.data()
                 return(
                     <Comments
+                        key={doc.id}
                         commentUserId={userId}
                         currentUserId={curUserId}
                         commentId={doc.id}

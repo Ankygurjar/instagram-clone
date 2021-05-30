@@ -4,55 +4,75 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import styled from 'styled-components'
 import Post from './Post'
 import ShowUsers from './FollowComponents/ShowUsers'
-import { useDocument } from 'react-firebase-hooks/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from '../../firebase'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../features/appSlice'
 
 function PostIndex() {
+
+    const curUser = useSelector(selectUser)
+
     const [user] = useAuthState(auth);
-    const [posts] = useDocument( user &&
+    const [posts, loading] = useCollection( user &&
             db.collection("posts")
             .orderBy("timestamp", "desc")
         )
-
-    const arrOfFollowing = []
-
-    const [following] = useDocument( user &&
-            db.collection("followers")
-            .where("followerId", "==", user.uid)
+    
+    const [following] = useCollection( user && curUser.docId &&
+            db.collection("users")
+            .doc(curUser.docId)
+            .collection("following")
         )
     
+    let arrOfFollowing = []
+
     following?.docs.forEach((doc)=>{
-        arrOfFollowing.push(doc.data().following)
-        arrOfFollowing.push(doc.data().followerId)
+        const { followingId } = doc.data()
+        arrOfFollowing.push(followingId)
     })
 
     return (
         <PostIndexContainer>
+
+            {
+                loading && (
+                    <center>
+                        <h2>Your Posts Are Loading....</h2>
+                    </center>
+                )
+            }
+
             { user && (
             <InnerContainer>
                 <Posts>
                     {posts && posts.docs.map((post)=>{
-                        const { imageUrl, caption, by, userProfilePic, timestamp,userId} = post.data()
-                        if(arrOfFollowing.includes(userId) || userId === user.uid){
-                        return(
-                            <Post
-                            key={post.id}
-                            docId={post.id}
-                            curUserId={user.uid}
-                            curUserName={user?.displayName}
-                            postId={post.id}
-                            timestamp={timestamp}
-                            by={by && by}
-                            userProfilePic={userProfilePic && userProfilePic}
-                            userId={userId}
-                            imageURL={imageUrl}
-                            caption={caption}
-                            />
-                        )
+                        const { imageUrl, caption, by, userProfilePic, timestamp, userId} = post.data()
+                        if(arrOfFollowing.includes(userId) || userId === curUser.userId){
+                            return(
+                                <Post
+                                key={post.id}
+                                docId={post.id}
+                                curUserId={user.uid}
+                                curUserName={user?.displayName}
+                                postId={post.id}
+                                timestamp={timestamp}
+                                by={by && by}
+                                userProfilePic={userProfilePic && userProfilePic}
+                                userId={userId}
+                                imageURL={imageUrl}
+                                caption={caption}
+                                />
+                            )
                         }
                     })}
                 </Posts>
-                <ShowUsers userId={user.uid}/>
+
+                <ShowUsers 
+                userId={user.uid} 
+                curUserDocId={curUser.docId} 
+                following={arrOfFollowing}/>
+
             </InnerContainer>
             )}
         </PostIndexContainer>

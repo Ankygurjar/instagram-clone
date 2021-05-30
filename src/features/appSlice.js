@@ -4,14 +4,17 @@ export const appSlice = createSlice({
   name: 'app',
   initialState: {
     user: {
+      docId: null,
       userId: null,
       userName: null,
-      userEmail: null
+      userEmail: null,
+      userProfilePic: null
     }
   },
 
   reducers: {
     currentUser: (state, action) => {
+      state.user.docId = action.payload.docId
       state.user.userId = action.payload.userId
       state.user.userName = action.payload.userName
       state.user.userEmail = action.payload.userEmail

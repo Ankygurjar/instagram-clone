@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux'
 import { currentUser } from './features/appSlice'
 import CurrentPost from './Components/PostComponents/CurrentPost'
 import Footer from './Components/HomeComponents/HomeFooter'
+import AllUsers from './Components/UserComponents/AllUsers'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         .then((doc)=>{
           doc.forEach((item)=>{
             dispatch(currentUser({
+              docId: item.id,
               userId: item.data().userId,
               userName: item.data().userName,
               userEmail: item.data().email,
@@ -79,6 +81,7 @@ function App() {
             <Header/>
               <Route path="/user" component={UserIndex}/>
               <Route path="/currentPost/:id" component={CurrentPost}/>
+              <Route path="/allUsers" component={AllUsers}/>
             <Footer/>
           </>
         )}

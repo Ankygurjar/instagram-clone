@@ -3,10 +3,13 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db } from '../../../firebase'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../../features/appSlice'
+import User from './User'
 
-function ShowUsers({ userId}) {
+function ShowUsers({ userId, curUserDocId, following}) {
 
-    const [isFollowing, setIsFollowing] = useState(false);
+    const user = useSelector(selectUser)
 
     const [users] = useDocument(
         userId && 
@@ -15,74 +18,25 @@ function ShowUsers({ userId}) {
         .limit(5)
     )
 
-    const handleUnFollow = async (id) =>{
-        await db.collection("followers")
-            .doc(id)
-            .delete()
-                .then(()=>{
-                    alert("User has been deleted from your following list")
-                })
-                .catch(err=>{console.log(err)})
-    }
-
-    const handleFollow =  async (following) =>{
-        await db.collection("followers")
-        .where("following", "==", following)
-        .get()
-            .then(async (res)=>{
-                if(res && res.empty){
-                    await db.collection("followers")
-                            .add({
-                                followerId: userId,
-                                following: following
-                            })
-                }else{
-                    if(window.confirm("You already follow this user. Do You want to unfollow?")){
-                        db.collection("followers")
-                            .where("following", "==", following)
-                            .where("followerId", "==", userId)
-                            .get()
-                            .then(async(res)=>{
-                                console.log(res)
-                                const id = res.docs[0].id
-                                handleUnFollow(id)
-                            })
-                    }
-                }
-            })
-            .catch((err)=>{
-                console.log(err.message)
-            })
-    }
-
     return (
         <ShowUsersContainer>
             <InnerContainer>
                 <Header>
-                    <b>Suggestions For You</b>
-                    <Link>See Al l</Link>
+                    <b>Suggestions For You</b> &nbsp;
+                    <Link to="/allUsers">See All</Link>
                 </Header>
                 { users && (
                     users.docs.map((doc)=>{
                         const { userName, profilePicture, userId } = doc.data()
+                        const isFollowing = (following.includes(userId))
                         return(
-                            <User key={doc.id}>
-                                <img alt="Profile" src={profilePicture}/>
-                                <b>{userName}</b>
-                                {
-                                    isFollowing && (
-                                        <button onClick={handleUnFollow}>
-                                            Unfollow
-                                        </button>
-                                    )
-                                }
-                                { !isFollowing && (
-                                    <button onClick={(e)=>{
-                                        e.preventDefault();
-                                        handleFollow(userId)
-                                    }}>Follow</button>
-                                )}
-                            </User>
+                            <User key={doc.id}
+                                userImage={profilePicture}
+                                userName={userName}
+                                followingId={userId}
+                                isFollowing = {isFollowing}
+                                curUserDocId= {curUserDocId}
+                            /> 
                         )
                     })
                 )}
@@ -92,7 +46,7 @@ function ShowUsers({ userId}) {
 }
 
 export default ShowUsers
-
+/*
 const User = styled.div`
     display: grid;
     grid-template-columns: auto auto auto;
@@ -113,7 +67,7 @@ const User = styled.div`
         font-weight: 900;
     }
 `
-
+*/
 const ShowUsersContainer = styled.div`
     
 `

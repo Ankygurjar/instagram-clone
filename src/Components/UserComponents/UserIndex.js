@@ -18,8 +18,6 @@ function UserIndex() {
         .where("userId", "==", user.userId)
     )
     
-
-
     return (
         <UserIndexContainer>
             <InnerContainer>
