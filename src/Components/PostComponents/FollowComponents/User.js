@@ -45,7 +45,7 @@ function User({ followingId, userImage, isFollowing, userName, curUserDocId}) {
     return (
         <UserContainer>
             <img src={userImage} alt="Avatar"/>
-            <Link><strong>{userName}</strong></Link>
+            <strong>{userName}</strong>
             {
                 isFollowing && (
                     <button

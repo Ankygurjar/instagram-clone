@@ -1,4 +1,4 @@
-import React, { } from 'react'
+import React, { useState } from 'react'
 import { auth } from '../../firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import styled from 'styled-components'
@@ -46,6 +46,11 @@ function PostIndex() {
             { user && (
             <InnerContainer>
                 <Posts>
+
+                    {
+                        posts && 
+                        console.log(posts.docs)
+                    }
                     {posts && posts.docs.map((post)=>{
                         const { imageUrl, caption, by, userProfilePic, timestamp, userId} = post.data()
                         if(arrOfFollowing.includes(userId) || userId === curUser.userId){
