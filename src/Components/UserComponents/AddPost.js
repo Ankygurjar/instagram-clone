@@ -5,13 +5,13 @@ import { firebase, storage, db } from './../../firebase'
 function AddPost({ userId, userName, userProfilePic }) {
 
     const [caption, setcaption] = useState('');
-    const [postPicture, setpostPicture] = useState(null)
+    const [postPicture, setPostPicture] = useState(null)
     const [progress, setProgress] = useState(0);
 
     const handleChange = (event) => {
         event.preventDefault();
         if(event.target.files[0]){
-            setpostPicture(event.target.files[0]);
+            setPostPicture(event.target.files[0]);
         }
     }
 
@@ -46,7 +46,7 @@ function AddPost({ userId, userName, userProfilePic }) {
                         })
                         setcaption("")
                         setProgress(0)
-                        setpostPicture(null)
+                        setPostPicture(null)
                     })
                 
             }
@@ -72,6 +72,14 @@ function AddPost({ userId, userName, userProfilePic }) {
                 onClick={handlePost}
                 > Add Post </button>
             </form>
+            {
+                (progress > 0) && (
+                <>
+                    <h3>Uploading</h3>
+                    <progress displayvalue={progress} max="100"> { progress }</progress>
+                </>
+                )
+            }
         </AddPostContainer>
     )
 }
