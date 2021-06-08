@@ -19,3 +19,9 @@ This project is a clone of Web Version of Instagram and it has the basic feature
 6. <strong>Material UI </strong>: a React-UI framework which helps to use inbuilt styling for the components.
 7. <strong>NPM </strong>: package manager for the project.
 
+<h2> How to use: </h2>
+
+1. Make sure to install the Git for desktop first.
+2. Clone the application to local desktop using <code> git clone 'link to this repo'</code>.
+3. Make sure you have <code>NPM</code> installed. If yes, navigate to the cloned folder of the appliation and run <code>npm install</code>. This command will install all the packages mentioned in the <code>'dependencies'</code> of the project.
+4. Ready to go, in the same terminal run <code>npm start</code> OR <code> npm run start </code>
