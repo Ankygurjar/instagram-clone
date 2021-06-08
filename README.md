@@ -1,5 +1,14 @@
 This project is a clone of Web Version of Instagram and it has the basic features of Instagram i.e Following and Unfollowing user accounts, comments and uploading photos to personal account. <a href="https://instagram-b7d1c.web.app/">Click here to see the application in action</a>
 
+<h2> Features :  </h2>
+
+1. Safe Login using Firebase OAuth authentication system.
+2. A user will be able to follow and unfollow other users registered in the application.
+3. Logged in user will be able to view the posts of the users that the user follows.
+4. User can upload images and set cations for them as well.
+5. The user who can see the post will be able to add a comment to the post.
+6. The Post as well as the comments can be deleted by thier author only.
+
 <h2> Technologies Used : </h2>
 
 1. React Js : a JS library created and maintained by Facebook. This library is the core of the project. It provides tons of pre-built components to start a project which makes it easier to manage and scale the application. I used React for this application as it makes the application very easier to scale and manage by spliting up the application into small and resuable components that can be used at multiple places in the application.
