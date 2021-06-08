@@ -5,7 +5,7 @@ This project is a clone of Web Version of Instagram and it has the basic feature
 1. Safe Login using Firebase OAuth authentication system.
 2. A user will be able to follow and unfollow other users registered in the application.
 3. Logged in user will be able to view the posts of the users that the user follows.
-4. User can upload images and set cations for them as well.
+4. User can upload images and set captions for them as well.
 5. The user who can see the post will be able to add a comment to the post.
 6. The Post as well as the comments can be deleted by thier author only.
 
